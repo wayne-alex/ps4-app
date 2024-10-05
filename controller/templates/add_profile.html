@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Add Profile</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #141414;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .header {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            padding: 15px 0;
+            position: relative;
+        }
+
+        .back-arrow {
+            font-size: 24px;
+            font-weight: bold;
+            cursor: pointer;
+            user-select: none;
+            position: absolute;
+            left: 0;
+        }
+
+        .header-title {
+            font-size: 20px;
+            font-weight: 600;
+            text-align: center;
+            flex-grow: 1;
+        }
+
+        .content {
+            margin-top: 40px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .avatar-container {
+            position: relative;
+            width: 120px;
+            height: 120px;
+            margin-bottom: 30px;
+        }
+
+        .avatar {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 48px;
+            font-weight: bold;
+            color: white;
+            transition: background-color 0.3s ease;
+        }
+
+        .edit-icon {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            background-color: #3a3a3a;
+            color: white;
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            font-size: 18px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .profile-input {
+            width: 100%;
+            max-width: 300px;
+            padding: 12px;
+            margin-bottom: 30px;
+            border: none;
+            border-radius: 8px;
+            background-color: #2a2a2a;
+            color: white;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        .profile-input:focus {
+            outline: none;
+            background-color: #3a3a3a;
+        }
+
+        .profile-input::placeholder {
+            color: #909090;
+        }
+
+        .save-btn {
+            font-size: 16px;
+            background-color: #28a745;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, opacity 0.3s ease;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .save-btn.visible {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .save-btn:hover {
+            background-color: #218838;
+        }
+
+        #colorPicker {
+            opacity: 0;
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<div class="header">
+    <div class="back-arrow" onclick="window.location.href='/profile'">&larr;</div>
+    <div class="header-title">Add Profile</div>
+</div>
+
+<form method="post" action="">
+    {% csrf_token %}
+    <div class="content">
+        <div class="avatar-container">
+            <div class="avatar" id="avatar"></div>
+            <div class="edit-icon">
+                ✏️
+                <input type="color" id="colorPicker" onchange="changeAvatarColor()">
+            </div>
+            <input type="hidden" id="profileColor" name="profileColor">
+        </div>
+
+        <input
+                type="text"
+                id="profileName"
+                class="profile-input"
+                placeholder="Enter profile name"
+                oninput="updateAvatar()"
+                name="profileName"
+                required
+        />
+
+        <button type="submit" class="save-btn" id="saveButton">Save Profile</button>
+    </div>
+</form>
+
+<script>
+    function changeAvatarColor() {
+        const avatar = document.getElementById('avatar');
+        const colorPicker = document.getElementById('colorPicker');
+        avatar.style.backgroundColor = colorPicker.value;
+        document.getElementById('profileColor').value = colorPicker.value; // Set hex value for profile color
+    }
+
+    function updateAvatar() {
+        const profileName = document.getElementById('profileName').value;
+        const avatar = document.getElementById('avatar');
+        const saveButton = document.getElementById('saveButton');
+
+        if (profileName.trim() !== '') {
+            avatar.textContent = profileName[0].toUpperCase();
+            saveButton.classList.add('visible');
+        } else {
+            avatar.textContent = '';
+            saveButton.classList.remove('visible');
+        }
+    }
+
+    // Set initial avatar color
+    document.getElementById('avatar').style.backgroundColor = '#3a3a3a';
+    document.getElementById('profileColor').value = '#3a3a3a';
+</script>
+</body>
+</html>

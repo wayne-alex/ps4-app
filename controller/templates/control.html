@@ -1,0 +1,220 @@
+{% extends 'dashboard.html' %}
+
+{% block control %}
+    <style>
+
+
+
+
+        .profile {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .profile-icon {
+            width: 60px;
+            height: 60px;
+            background-color: #ff4757;
+            border-radius: 15px;
+            margin-right: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            font-weight: bold;
+            color: #fff;
+        }
+
+        .profile-info {
+            flex-grow: 1;
+        }
+
+        .username {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .name {
+            font-size: 14px;
+            color: #888;
+        }
+
+        .switch-icon {
+            font-size: 24px;
+            color: #0a84ff;
+            cursor: pointer;
+        }
+
+        .device-info {
+            background-color: #3c3c3e;
+            border-radius: 15px;
+            padding: 15px;
+            margin-top: 20px;
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .info-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .info-label {
+            font-size: 14px;
+            color: #888;
+        }
+
+        .info-value {
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .warning {
+            color: #ff9f0a;
+        }
+
+        .recently-played {
+            padding: 0 20px 20px;
+        }
+
+        .section-title {
+            font-size: 14px;
+            color: #888;
+            margin-bottom: 10px;
+        }
+
+        .game-list {
+            list-style-type: none;
+        }
+
+        .game-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .game-icon {
+            width: 60px;
+            height: 60px;
+            background-color: #333;
+            border-radius: 15px;
+            margin-right: 15px;
+        }
+
+        .game-info {
+            flex-grow: 1;
+        }
+
+        .game-name {
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+
+        .game-trophies {
+            display: flex;
+        }
+
+        .game-trophy {
+            width: 20px;
+            height: 20px;
+            background-color: #444;
+            border-radius: 50%;
+            margin-right: 5px;
+        }
+
+        .game-progress {
+            font-size: 14px;
+            color: #888;
+            text-align: right;
+        }
+    </style>
+
+    <div class="container">
+        <div class="top-card">
+            <div class="profile">
+                <div class="profile-icon">M</div>
+                <div class="profile-info">
+                    <div class="username">EsperWhisper</div>
+                    <div class="name">Martin</div>
+                </div>
+                <i class="fas fa-exchange-alt switch-icon"></i>
+            </div>
+            <div class="device-info">
+                <div class="info-row">
+                    <span class="info-label">Gamepad</span>
+                    <span class="info-value">DualSense4</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Battery</span>
+                    <span class="info-value warning">12% (Connect charger)</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="recently-played">
+            <h2 class="section-title">RECENTLY PLAYED</h2>
+            <ul class="game-list">
+                <li class="game-item">
+                    <div class="game-icon"></div>
+                    <div class="game-info">
+                        <div class="game-name">Genshin Impact</div>
+                        <div class="game-trophies">
+                            <div class="game-trophy"></div>
+                            <div class="game-trophy"></div>
+                            <div class="game-trophy"></div>
+                            <div class="game-trophy"></div>
+                        </div>
+                    </div>
+                    <div class="game-progress">85%</div>
+                </li>
+                <li class="game-item">
+                    <div class="game-icon"></div>
+                    <div class="game-info">
+                        <div class="game-name">Tekken 7</div>
+                        <div class="game-trophies">
+                            <div class="game-trophy"></div>
+                            <div class="game-trophy"></div>
+                            <div class="game-trophy"></div>
+                            <div class="game-trophy"></div>
+                        </div>
+                    </div>
+                    <div class="game-progress">80%</div>
+                </li>
+                <li class="game-item">
+                    <div class="game-icon"></div>
+                    <div class="game-info">
+                        <div class="game-name">Final Fantasy VII Remake</div>
+                        <div class="game-trophies">
+                            <div class="game-trophy"></div>
+                            <div class="game-trophy"></div>
+                            <div class="game-trophy"></div>
+                            <div class="game-trophy"></div>
+                        </div>
+                    </div>
+                    <div class="game-progress">49%</div>
+                </li>
+                <li class="game-item">
+                    <div class="game-icon"></div>
+                    <div class="game-info">
+                        <div class="game-name">Soul Calibur VI</div>
+                        <div class="game-trophies">
+                            <div class="game-trophy"></div>
+                            <div class="game-trophy"></div>
+                            <div class="game-trophy"></div>
+                        </div>
+                    </div>
+                    <div class="game-progress">14%</div>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+{% endblock %}
+{% block discover %}
+    <h2>DISCOVER</h2>
+{% endblock %}

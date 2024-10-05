@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Macros & Hotkeys</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #121212;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .header {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 0;
+        }
+
+        .back-btn {
+            background-color: transparent;
+            border: none;
+            color: #28a745;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .header-title {
+            font-size: 24px;
+            font-weight: bold;
+            flex-grow: 1;
+            text-align: center;
+        }
+
+        .macros-container {
+            width: 100%;
+            max-width: 400px;
+            margin: 20px 0;
+        }
+
+        .macro-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #2a2a2a;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            transition: background-color 0.3s;
+        }
+
+        .macro-item:hover {
+            background-color: #3a3a3a;
+        }
+
+        .macro-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .macro-name {
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+
+        .macro-key {
+            font-size: 14px;
+            color: #909090;
+        }
+
+        .edit-btn {
+            background-color: transparent;
+            border: none;
+            color: #28a745;
+            font-size: 18px;
+            cursor: pointer;
+        }
+
+        .add-macro-btn {
+            border: 2px solid #28a745;
+            background-color: transparent;
+            color: #28a745;
+            padding: 10px 15px;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .add-macro-btn:hover {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .add-macro-form {
+            display: none;
+            width: 100%;
+            max-width: 400px;
+            background-color: #1a1a1a;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            transition: all 0.3s;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            font-size: 14px;
+            margin-bottom: 5px;
+            color: #909090;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: none;
+            background-color: #2a2a2a;
+            color: white;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border: 1px solid #28a745;
+        }
+
+        .save-macro-btn {
+            background-color: #28a745;
+            border: none;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            width: 100%;
+        }
+
+        .save-macro-btn:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <button class="back-btn" onclick="goBack()"><i class="fas fa-arrow-left"></i></button>
+        <div class="header-title">Macros & Hotkeys</div>
+    </div>
+
+    <div class="macros-container">
+        <!-- Example Macro/Hotkey -->
+        <div class="macro-item">
+            <div class="macro-info">
+                <div class="macro-name">Screenshot</div>
+                <div class="macro-key">L3 + R3</div>
+            </div>
+            <button class="edit-btn" onclick="editMacro('Screenshot', 'L3 + R3')"><i class="fas fa-edit"></i></button>
+        </div>
+
+        <div class="macro-item">
+            <div class="macro-info">
+                <div class="macro-name">Quick Menu</div>
+                <div class="macro-key">L1 + R1</div>
+            </div>
+            <button class="edit-btn" onclick="editMacro('Quick Menu', 'L1 + R1')"><i class="fas fa-edit"></i></button>
+        </div>
+
+        <div class="macro-item">
+            <div class="macro-info">
+                <div class="macro-name">Crouch</div>
+                <div class="macro-key">Circle + Down</div>
+            </div>
+            <button class="edit-btn" onclick="editMacro('Crouch', 'Circle + Down')"><i class="fas fa-edit"></i></button>
+        </div>
+    </div>
+
+    <button class="add-macro-btn" onclick="toggleMacroForm()">+ Add New Macro/Hotkey</button>
+
+    <div class="add-macro-form" id="macroForm">
+        <div class="form-group">
+            <label for="macroName">Macro Name</label>
+            <input type="text" id="macroName" placeholder="Enter macro name">
+        </div>
+
+        <div class="form-group">
+            <label for="macroKeys">Key Combination</label>
+            <input type="text" id="macroKeys" placeholder="e.g., L3 + R3">
+        </div>
+
+        <button class="save-macro-btn" onclick="saveMacro()">Save Macro</button>
+    </div>
+
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+
+        function toggleMacroForm() {
+            const form = document.getElementById('macroForm');
+            if (form.style.display === 'none' || form.style.display === '') {
+                form.style.display = 'block';
+            } else {
+                form.style.display = 'none';
+            }
+        }
+
+        function saveMacro() {
+            const macroName = document.getElementById('macroName').value;
+            const macroKeys = document.getElementById('macroKeys').value;
+
+            if (macroName && macroKeys) {
+                // Simulate adding macro (You would normally handle this in your backend)
+                alert(`Macro "${macroName}" with keys "${macroKeys}" added!`);
+                toggleMacroForm();
+            } else {
+                alert('Please fill out all fields');
+            }
+        }
+
+        function editMacro(name, keys) {
+            // Pre-fill the form with the macro to edit
+            document.getElementById('macroName').value = name;
+            document.getElementById('macroKeys').value = keys;
+            document.getElementById('macroForm').style.display = 'block';
+        }
+    </script>
+</body>
+
+</html>

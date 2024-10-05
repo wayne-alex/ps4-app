@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>PS Profile Selection</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            background-color: #141414;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+        .logo-container {
+            margin-bottom: 30px;
+        }
+        .logo-container img {
+            width: 150px;
+            filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.5));
+        }
+        h2 {
+            font-size: 20px;
+            margin-bottom: 30px;
+            font-weight: 400;
+            letter-spacing: 0.5px;
+        }
+        .profiles-container {
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .profile {
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            padding: 15px;
+            border-radius: 10px;
+            width: 120px;
+        }
+        .profile:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+        }
+        .avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            font-weight: bold;
+            margin: 0 auto 10px;
+            color: white;  /* Text color for initials */
+        }
+        .profile-name {
+            font-size: 14px;
+            margin-top: 5px;
+        }
+        .add-profile {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+        .add-icon {
+            font-size: 40px;
+            color: #909090;
+            margin-bottom: 10px;
+        }
+        .add-profile:hover .add-icon {
+            color: white;
+        }
+        .add-profile p {
+            font-size: 14px;
+            color: #909090;
+        }
+    </style>
+</head>
+<body>
+    <div class="logo-container">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/0/00/PlayStation_logo.svg" alt="PlayStation Logo">
+    </div>
+
+    <h2>Who's playing?</h2>
+
+    <div class="profile add-profile" onclick="addProfile()">
+        <div class="add-icon">+</div>
+        <p>Add Profile</p>
+    </div>
+
+    <div class="profiles-container">
+        {% for profile in profiles %}
+        <div class="profile" onclick="selectProfile('{{ profile.id }}')">
+            <div class="avatar" style="background-color: {{ profile.color }};">
+                {{ profile.name|slice:":1" }}
+            </div>
+            <p class="profile-name">{{ profile.name }}</p>
+        </div>
+        {% endfor %}
+    </div>
+
+    <script>
+       function selectProfile(profileId) {
+        window.location.href = "{% url 'dashboard' profile_id=0 %}".replace('0', profileId);
+    }
+
+        function addProfile() {
+        window.location.href = "{% url 'addProfile' %}";
+    }
+    </script>
+</body>
+</html>

@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>PS Gamepad Sign Up</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #141414;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .signup-container {
+            width: 380px;
+            padding: 40px;
+            border-radius: 20px;
+            background-color: #1e1e1e;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .logo-container {
+            width: 120px;
+            height: 120px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto 30px;
+        }
+
+        .logo-container img {
+            width: 100px;
+            filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.3));
+        }
+
+        h2 {
+            font-size: 28px;
+            margin-bottom: 30px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .input-container {
+            position: relative;
+            margin-bottom: 25px;
+        }
+
+        .input-container input {
+            width: 100%;
+            padding: 12px 15px 12px 45px;
+            background-color: #2a2a2a;
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .input-container input:focus {
+            outline: none;
+            background-color: #333333;
+            box-shadow: 0 0 0 2px rgba(76, 139, 245, 0.5);
+        }
+
+        .input-container input::placeholder {
+            color: #888888;
+        }
+
+        .input-container .icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 20px;
+            color: #4c8bf5;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #4c8bf5;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: 600;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #357ae8;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(76, 139, 245, 0.3);
+        }
+
+        p {
+            margin-top: 25px;
+            font-size: 14px;
+            text-align: center;
+            color: #888888;
+        }
+
+        p a {
+            color: #4c8bf5;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        p a:hover {
+            text-decoration: underline;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+<body>
+<div class="signup-container">
+    <div class="logo-container">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/0/00/PlayStation_logo.svg" alt="PlayStation Logo">
+    </div>
+    <h2>Create Your Account</h2>
+    <form method="post" action="">
+        {% csrf_token %}
+        <div class="input-container">
+            <i class="fas fa-user icon"></i>
+            <input type="text" placeholder="Username" required name="username">
+        </div>
+        <div class="input-container">
+            <i class="fas fa-lock icon"></i>
+            <input type="password" placeholder="Password" required name="password1">
+        </div>
+        <div class="input-container">
+            <i class="fas fa-lock icon"></i>
+            <input type="password" placeholder="Confirm Password" required name="password2">
+        </div>
+        <button type="submit">Sign Up</button>
+    </form>
+    <p>Already have an account? <a href="{% url 'login' %}">Sign In</a></p>
+</div>
+</body>
+</html>
