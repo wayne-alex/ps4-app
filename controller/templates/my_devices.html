@@ -194,54 +194,81 @@
 
 <script>
     function showSpinner() {
-        const spinner = document.getElementById("spinner");
-        const devicesContainer = document.querySelector(".devices-container");
-        spinner.style.display = "inline-block";
+    const spinner = document.getElementById("spinner");
+    const devicesContainer = document.querySelector(".devices-container");
+    spinner.style.display = "inline-block";
+    devicesContainer.innerHTML = '';
 
-
-        devicesContainer.innerHTML = '';
-
-
-        fetch('http://192.168.79.32:5001/gamepads')
-            .then(response => {
-                spinner.style.display = "none";
-
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-
-                return response.json();
-            })
-            .then(data => {
-                if (data.error) {
-                    devicesContainer.innerHTML = `<div>${data.error}</div>`;
-                    return;
-                }
-
-                // Populate the devices container with the retrieved gamepads
-                data.forEach(device => {
-                    const deviceElement = document.createElement('div');
-                    deviceElement.classList.add('device');
-                    deviceElement.innerHTML = `
-                    <div class="device-info">
-                        <i class="fas fa-gamepad device-icon"></i>
-                        <div>
-                            <div class="device-name">${device.name}</div>
-                            <div class="device-status"><i class="fas fa-plug"></i> Connected</div>
-                            <div>Vendor ID: ${device.vendor_id}</div>
-                            <div>Product ID: ${device.product_id}</div>
-                        </div>
+    fetch('http://192.168.100.24:5001/gamepads', {
+        method: 'GET',
+        mode: 'cors',
+        headers: {
+            'Accept': 'application/json',
+        },
+    })
+    .then(response => {
+        spinner.style.display = "none";
+        if (!response.ok) {
+            throw new Error('No Gamepads Found on the System');
+        }
+        return response.json();
+    })
+    .then(data => {
+        if (data.error) {
+            devicesContainer.innerHTML = `<div>${data.error}</div>`;
+            return;
+        }
+        // Populate the devices container with the retrieved gamepads
+        data.forEach(device => {
+            const deviceElement = document.createElement('div');
+            deviceElement.classList.add('device');
+            deviceElement.innerHTML = `
+                <div class="device-info">
+                    <i class="fas fa-gamepad device-icon"></i>
+                    <div>
+                        <div class="device-name">${device.name}</div>
+                        <div class="device-status"><i class="fas fa-plug"></i> Connected</div>
+                        <div>Vendor ID: ${device.vendor_id}</div>
+                        <div>Product ID: ${device.product_id}</div>
                     </div>
-                `;
-                    devicesContainer.appendChild(deviceElement);
-                });
-            })
-            .catch(error => {
-                spinner.style.display = "none"; // Hide spinner on error
-                devicesContainer.innerHTML = `<div>Error: ${error.message}</div>`;
-            });
-    }
+                </div>
+                <button onclick="addToProfile('${device.vendor_id}', '${device.product_id}')">Add to Profile</button>
+            `;
+            devicesContainer.appendChild(deviceElement);
+        });
+    })
+    .catch(error => {
+        spinner.style.display = "none";
+        devicesContainer.innerHTML = `<div>Error: ${error.message}</div>`;
+    });
+}
 
+function addToProfile(vendorId, productId) {
+    fetch('/add-controller/', {
+        method: 'POST',
+        mode: 'cors',
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+        },
+        body: JSON.stringify({
+            vendor_id: vendorId,
+            product_id: productId
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            window.location.href = '/dashboard';
+        } else {
+            alert('Failed to add gamepad to profile');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('An error occurred while adding the gamepad to the profile');
+    });
+}
 </script>
 </body>
 </html>

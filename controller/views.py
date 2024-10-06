@@ -1,10 +1,15 @@
+import base64
+
 from django.contrib import messages
 from django.contrib.auth import authenticate, login as auth_login
 from django.contrib.auth.decorators import login_required
+from django.core.files.base import ContentFile
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
+from django.views.decorators.csrf import csrf_exempt
 
 from controller.forms import SignUpForm
-from controller.models import Profile, Gamepad
+from controller.models import Profile, Gamepad, Screenshot
 
 
 # Create your views here.
@@ -54,12 +59,13 @@ def dashboard(request, profile_id):
     profiles = Profile.objects.filter(user=request.user)
 
     gamepads = Gamepad.objects.filter(profile=currentProfile)
-    if not gamepads:
-        return redirect(add_device)
-    currentGamepad = gamepads.order_by('-last_used').first()
+
+    # if not gamepads:
+    #     return redirect(add_device)
+    # currentGamepad = gamepads.order_by('-last_used').first()
 
     return render(request, 'dashboard.html',
-                  {'username': username, 'currentProfile': currentProfile, 'gamepad': currentGamepad})
+                  {'username': username, 'currentProfile': currentProfile})
 
 
 def test_vibration(request):
@@ -98,3 +104,38 @@ def register(request):
             return redirect('profile')
 
     return render(request, 'sign_up.html')
+
+
+@csrf_exempt
+def screenshot(request):
+    if request.method == 'POST':
+        try:
+            img_base64 = request.POST.get('image')
+            if not img_base64:
+                return JsonResponse({'error': 'No image data received'}, status=400)
+            img_data = base64.b64decode(img_base64)
+            screenshot_ = Screenshot()
+            screenshot_.image.save('screenshot.png', ContentFile(img_data), save=True)
+
+            return JsonResponse({'success': True, 'id': screenshot.id})
+
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=500)
+
+    return JsonResponse({'error': 'Invalid request method'}, status=405)
+
+
+@login_required()
+@csrf_exempt
+def add_controller(request):
+    if request == 'POST':
+        profile_ = Profile.objects.get(user=request.user)
+        controller_VendorID = request.POST['vendor_id']
+        controller_productID = request.POST['product_id']
+
+        add_gamepad = Gamepad(profile=profile_, name='DualSense4', vendor_id=controller_VendorID,
+                              product_id=controller_productID)
+        add_gamepad.save()
+        return HttpResponse('ok')
+    else:
+        return HttpResponse('Not ok')

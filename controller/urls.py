@@ -15,4 +15,6 @@ urlpatterns = [
     path('macro_hotkeys/', views.macro_hotkeys, name='macroHotkeys'),
     path('input_monitor/', views.input_monitor, name='inputMonitor'),
     path('connection_error/', views.connection_error, name='connectionError'),
+    path('screenshot/', views.screenshot, name='screenshot'),
+    path('add-controller/', views.add_controller, name='addController'),
 ]

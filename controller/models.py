@@ -16,7 +16,6 @@ class Profile(models.Model):
 
 
 class Screenshot(models.Model):
-    profile = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='screenshots')
     image = models.ImageField(upload_to='screenshots/')
     uploaded_at = models.DateTimeField(auto_now_add=True)
 
