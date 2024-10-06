@@ -64,8 +64,11 @@ def dashboard(request, profile_id):
     #     return redirect(add_device)
     # currentGamepad = gamepads.order_by('-last_used').first()
 
+    screenshots = Screenshot.objects.all()
+
+
     return render(request, 'dashboard.html',
-                  {'username': username, 'currentProfile': currentProfile})
+                  {'username': username, 'currentProfile': currentProfile,'screenshots':screenshots})
 
 
 def test_vibration(request):
@@ -117,7 +120,7 @@ def screenshot(request):
             screenshot_ = Screenshot()
             screenshot_.image.save('screenshot.png', ContentFile(img_data), save=True)
 
-            return JsonResponse({'success': True, 'id': screenshot.id})
+            return JsonResponse({'success': True})
 
         except Exception as e:
             return JsonResponse({'error': str(e)}, status=500)

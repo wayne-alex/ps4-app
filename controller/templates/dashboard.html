@@ -1264,42 +1264,35 @@
                             <p class="connect-subtitle">View and manage your game screenshots</p>
                         </div>
 
-                        <div class="gallery-grid">
-                            <div class="gallery-item"
-                                 onclick="openModal('/api/placeholder/300/169', 'Epic boss fight')">
-                                <img src="/api/placeholder/300/169" alt="Screenshot 1" class="gallery-image">
-                                <div class="gallery-overlay">
-                                    <h3 class="gallery-title">Epic boss fight</h3>
-                                </div>
+                        {% if screenshots %}
+                            <div class="gallery-grid">
+                                {% for screenshot in screenshots %}
+                                    <div class="gallery-item"
+                                         onclick="openModal('{{ screenshot.image.url }}', '{{ screenshot.image.name }}')">
+                                        <img src="{{ screenshot.image.url }}" alt="{{ screenshot.image.name }}"
+                                             class="gallery-image">
+                                        <div class="gallery-overlay">
+                                            <h3 class="gallery-title">{{ screenshot.image.name|default:"Screenshot" }}</h3>
+                                        </div>
+                                    </div>
+                                {% endfor %}
                             </div>
-                            <div class="gallery-item"
-                                 onclick="openModal('/api/placeholder/300/169', 'Beautiful landscape')">
-                                <img src="/api/placeholder/300/169" alt="Screenshot 2" class="gallery-image">
-                                <div class="gallery-overlay">
-                                    <h3 class="gallery-title">Beautiful landscape</h3>
-                                </div>
-                            </div>
-                            <div class="gallery-item"
-                                 onclick="openModal('/api/placeholder/300/169', 'Intense racing moment')">
-                                <img src="/api/placeholder/300/169" alt="Screenshot 3" class="gallery-image">
-                                <div class="gallery-overlay">
-                                    <h3 class="gallery-title">Intense racing moment</h3>
-                                </div>
-                            </div>
-                            <!-- Add more gallery items as needed -->
-                        </div>
 
-                        <div id="screenshotModal" class="modal">
-                            <span class="modal-close" onclick="closeModal()">&times;</span>
-                            <div class="modal-content">
-                                <img id="modalImage" src="" alt="Full size screenshot" class="modal-image">
-                                <p id="modalCaption" class="modal-caption"></p>
-                                <div class="modal-actions">
-                                    <button class="modal-button" onclick="saveScreenshot()">Save</button>
-                                    <button class="modal-button" onclick="shareScreenshot()">Share</button>
+                            <div id="screenshotModal" class="modal">
+                                <span class="modal-close" onclick="closeModal()">&times;</span>
+                                <div class="modal-content">
+                                    <img id="modalImage" src="" alt="Full size screenshot" class="modal-image">
+                                    <p id="modalCaption" class="modal-caption"></p>
+                                    <div class="modal-actions">
+                                        <button class="modal-button" onclick="saveScreenshot()">Save</button>
+                                        <button class="modal-button" onclick="shareScreenshot()">Share</button>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        {% else %}
+                            <p>No screenshots available.</p>
+                        {% endif %}
+
                     </div>
                 </div>
             </div>
