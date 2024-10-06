@@ -17,4 +17,6 @@ urlpatterns = [
     path('connection_error/', views.connection_error, name='connectionError'),
     path('screenshot/', views.screenshot, name='screenshot'),
     path('add-controller/', views.add_controller, name='addController'),
+    path('delete_screenshot/<int:screenshot_id>/<int:profile_id>', views.delete_screenshot, name='deleteScreenshot'),
+
 ]

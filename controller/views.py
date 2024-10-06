@@ -5,7 +5,7 @@ from django.contrib.auth import authenticate, login as auth_login
 from django.contrib.auth.decorators import login_required
 from django.core.files.base import ContentFile
 from django.http import HttpResponse, JsonResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
 
 from controller.forms import SignUpForm
@@ -66,9 +66,8 @@ def dashboard(request, profile_id):
 
     screenshots = Screenshot.objects.all()
 
-
     return render(request, 'dashboard.html',
-                  {'username': username, 'currentProfile': currentProfile,'screenshots':screenshots})
+                  {'username': username, 'currentProfile': currentProfile, 'screenshots': screenshots})
 
 
 def test_vibration(request):
@@ -142,3 +141,13 @@ def add_controller(request):
         return HttpResponse('ok')
     else:
         return HttpResponse('Not ok')
+
+
+@login_required
+def delete_screenshot(request, screenshot_id, profile_id):
+    _screenshot = get_object_or_404(Screenshot, id=screenshot_id)
+    if request.method == 'POST':
+        _screenshot.delete()
+        messages.success(request, "Screenshot deleted successfully!")
+        return redirect('dashboard', profile_id=profile_id)
+    return redirect('dashboard', profile_id=profile_id)
