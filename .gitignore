@@ -1,2 +1,6 @@
 .env
 venv
+config.yaml
+setup.py
+reverse.py
+Django-Vercel-Deployment-Setup

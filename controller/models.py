@@ -7,7 +7,6 @@ class Profile(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
     color = models.CharField(max_length=7, default='#FF0000')
-    total_playtime = models.IntegerField(default=0)
     total_buttons_pressed = models.IntegerField(default=0)
     right_stick_usage = models.FloatField(default=0)
     left_stick_usage = models.FloatField(default=0)
@@ -51,7 +50,7 @@ class Game(models.Model):
     name = models.CharField(max_length=200)
     path = models.CharField(max_length=500)
     last_played = models.DateTimeField(null=True, blank=True)
-    total_playtime = models.DurationField(default=0)
+
 
     def __str__(self):
         return self.name
